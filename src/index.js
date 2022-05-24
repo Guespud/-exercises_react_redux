@@ -4,16 +4,31 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {ApolloClient, HttpLink, InMemoryCache, ApolloProvider} from '@apollo/client';
 import './index.css';
+
+
+/* Creating a new ApolloClient with a cache and a link. */
+const client = new ApolloClient({
+
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: 'https://beta.pokeapi.co/graphql/v1beta'
+  })
+
+})
+
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
+    <ApolloProvider client={client}>
     <Provider store={store}>
       <App />
     </Provider>
+    </ApolloProvider>
   </React.StrictMode>
 );
 
